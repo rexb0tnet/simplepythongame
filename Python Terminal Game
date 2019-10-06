@@ -1,0 +1,90 @@
+#for Python starters 
+
+from random import randint
+
+
+game_running = True
+game_result = []
+def calculate_monster_attack ():
+    return randint(monster['Attack_min'], monster['Attack_max'])
+
+def game_end (winner_name):
+    print(f'{winner_name} win the Game')
+
+while game_running == True:
+    counter = 0
+    new_round  = True
+    player = {'name': 'You', 'Attack': 13, 'Heal': 16, 'Health': 100}
+    monster = {'name': 'Rex', 'Attack_min': 12, 'Attack_max': 20,'Health': 100}
+
+
+    print('---'* 7)
+    print('Enter Player name')
+    player['name'] = input()
+
+    print(player['name'] + ' has ' + str (player['Health']) + ' health')
+    print(monster['name'] + ' has ' + str(monster['Health']) + ' health')
+    while new_round == True:
+        counter = counter+1
+
+
+
+
+        player_won =  False
+        monster_won = False
+
+        print('Please select action')
+        print('1) Attack')
+        print('2) Heal')
+        print('3)Exit')
+        print('4) Show Results')
+        player_choice = input()
+
+        if player_choice == '1':
+            monster['Health'] = monster['Health']- player['Attack']
+            if monster['Health'] <= 0:
+                player_won = True
+            else:
+
+                player['Health'] = player['Health'] - calculate_monster_attack()
+                if player['Health'] <= 0:
+                    monster_won = True
+
+
+        elif player_choice == '2':
+            player['Health'] = player ['Health'] + player['Heal']
+
+            if player['Health'] <= 0:
+                monster_won = True
+
+        elif player_choice == '3':
+            new_round = False
+            game_running = False
+        elif player_choice == '4':
+            for score in game_result:
+                print(score)
+            new_round = False
+
+        else:
+
+            print('Choose Correct one Dude')
+        if player_won == False and monster_won == False :
+            print( player['name'] +' has '+ str (player['Health']) + ' Left' )
+            print(monster['name'] + ' has ' + str(monster['Health']) + ' Left')
+
+
+        elif player_won == True:
+            round_result = {'name': player['name'], ' Health': player['Health'] , 'rounds' : counter}
+            game_result.append(round_result)
+            game_end(player['name'])
+            print(game_result)
+
+        elif monster_won == True:
+            round_result = {'name': player['name'], ' Health' : player[ 'Health'] , 'rounds' : counter}
+            game_result.append(round_result)
+            game_end(monster['name'])
+            print(game_result)
+
+        if player_won == True or monster_won == True:
+            new_round= False
+
